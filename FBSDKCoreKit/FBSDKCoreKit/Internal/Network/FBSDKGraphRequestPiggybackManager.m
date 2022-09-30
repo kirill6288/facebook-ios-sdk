@@ -6,17 +6,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-#import "FBSDKGraphRequestPiggybackManager.h"
-
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKCoreKit_Basics/FBSDKCoreKit_Basics.h>
 
 #import "FBSDKGraphRequestConnecting+Internal.h"
 #import "FBSDKGraphRequestMetadata.h"
-#import "FBSDKServerConfigurationManager.h"
 
 @implementation FBSDKGraphRequestPiggybackManager
 
-- (instancetype)initWithTokenWallet:(Class<FBSDKAccessTokenProviding, FBSDKAccessTokenSetting>)tokenWallet
+- (instancetype)initWithTokenWallet:(Class<FBSDKAccessTokenProviding>)tokenWallet
                            settings:(id<FBSDKSettings>)settings
         serverConfigurationProvider:(id<FBSDKServerConfigurationProviding>)serverConfigurationProvider
                 graphRequestFactory:(id<FBSDKGraphRequestFactory>)graphRequestFactory

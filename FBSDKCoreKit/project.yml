@@ -27,7 +27,6 @@ settings:
     # We need to explicitly set them to maintain parity with
     # the project file being replaced
     CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER: NO
-    SWIFT_OPTIMIZATION_LEVEL: -O
 
 targets:
   FBSDKCoreKit-Static:
@@ -43,7 +42,6 @@ targets:
         excludes:
           - include
           - FBSDKCoreKit.modulemap
-          - Device/*.[h,m]
           - Info.plist
       - path: FBSDKCoreKit/Info.plist
         group: FBSDKCoreKit/Supporting Files
@@ -64,7 +62,6 @@ targets:
         script: ../scripts/build_phase_swiftlint.sh
     settings:
       CLANG_WARN_STRICT_PROTOTYPES: NO
-      FB_BITCODE_FLAG[sdk=iphoneos11.0]: -fembed-bitcode
       GCC_PREFIX_HEADER: $(SRCROOT)/FBSDKCoreKit/FBSDKCoreKit-Prefix-Header.h
       CPP_PREFIX_HEADER: $(SRCROOT)/FBSDKCoreKit/FBSDKCoreKit-Prefix-Header.h
   FBSDKCoreKit-Dynamic:
@@ -78,10 +75,8 @@ targets:
         headerVisibility: project
         createIntermediateGroups: true
         excludes:
-          - Device/*.[h,m]
           - include
           - FBSDKCoreKit.modulemap
-          - FBSDKDeviceViewControllerBase.m
           - Info.plist
       - path: FBSDKCoreKit/Info.plist
         group: FBSDKCoreKit/Supporting Files
@@ -117,87 +112,16 @@ targets:
     platform: tvOS
     productName: FBSDKCoreKit
     sources:
-      - path: FBSDKCoreKit/AppEvents
-        headerVisibility: project
-        createIntermediateGroups: true
-        excludes:
-          - Internal/AAM
-          - Internal/AEM
-          - Internal/Codeless
-          - Internal/SKAdNetwork
-          - Internal/SuggestedEvents
-          - Internal/Integrity/FBSDKIntegrityManager*
-          - Internal/Integrity/FBSDKIntegrityManager+AppEventsParametersProcessing.h
-          - Internal/ML
-          - Internal/Codeless
-          - Internal/ViewHierarchy
-          - Internal/FBSDKFeatureExtracting*
-          - Internal/FBSDKHybridAppEventsScriptMessageHandler*
-          - Internal/FBSDKAppEventsNumberParser*
-      - path: FBSDKCoreKit/GraphAPI
-        createIntermediateGroups: true
-        excludes:
-          - FBSDKGraphErrorRecoveryProcessor*
-      - path: FBSDKCoreKit/Internal
-        createIntermediateGroups: true
-        headerVisibility: project
-        excludes:
-          - FBSDKAuthenticationStatusUtility*
-          - FBSDKBackgroundEventLogger*
-          - FBSDKContainerViewController*
-          - FBSDKInternalUtility+WindowFinding*
-          - FBSDKRulesFromKeyProvider.h
-          - FBSDKProfile+Internal*
-          - FBSDKProfile+ProfileProtocols*
-          - FBSDKProfilePictureView+Internal*
-          - FBSDKProfileProtocols*
-          - FBSDKMeasurementEvent*
-          - FBSDKMacCatalystDetermining*
-          - FBSDKURL_Internal.h
-          - FBSDKAppLink*
-          - UIApplication+URLOpener.h
-          - BridgeAPI
-          - UI/FBSDKCloseIcon*
-          - UI/FBSDKHumanSilhouette*
-          - WebDialog
       - path: FBSDKCoreKit
         headerVisibility: project
         excludes:
-          - AppEvents
-          - AppLink
-          - BridgeAPI
-          - GraphAPI
-          - Internal
           - include
-          - FBSDKBridgeAPI*
-          - FBSDKMeasurementEvent*
-          - FBSDKMutableCopying*
-          - FBSDKProfile*
-          - FBSDKShareDialogConfiguration*
-          - FBSDKURL.*
-          - FBSDKURLHosting*
-          - FBSDKURLOpen*
-          - FBSDKWebDialog*
           - FBSDKCoreKit.modulemap
           - Info.plist
+          - FBProfilePictureView.swift
+          - Internal/ProfilePictureViewState.swift
       - path: FBSDKCoreKit/include
         headerVisibility: public
-        excludes:
-          - FBSDKAppLink*
-          - FBSDKBridgeAPI*
-          - FBSDKGraphErrorRecoveryProcessor*
-          - FBSDKBridgeAPI*
-          - FBSDKMeasurementEvent*
-          - FBSDKMutableCopying*
-          - FBSDKProfile*
-          - FBSDKShareDialogConfiguration*
-          - FBSDKURL.*
-          - FBSDKURLHosting*
-          - FBSDKURLOpen*
-          - FBSDKWebDialog*
-          - FBSDKWebViewAppLinkResolver*
-          - FBSDKWindowFinding*
-          - FBSDKInternalUtility+URLHosting*
       - path: FBSDKCoreKit/Info.plist
         group: FBSDKCoreKit/Supporting Files
         createIntermediateGroups: true
@@ -221,89 +145,16 @@ targets:
     platform: tvOS
     productName: FBSDKCoreKit
     sources:
-      - path: FBSDKCoreKit/AppEvents
-        headerVisibility: project
-        createIntermediateGroups: true
-        excludes:
-          - Internal/AAM
-          - Internal/AEM
-          - Internal/Codeless
-          - Internal/SKAdNetwork
-          - Internal/SuggestedEvents
-          - Internal/Integrity/FBSDKIntegrityManager*
-          - Internal/Integrity/FBSDKIntegrityManager+AppEventsParametersProcessing.h
-          - Internal/ML
-          - Internal/Codeless
-          - Internal/ViewHierarchy
-          - Internal/FBSDKFeatureExtracting*
-          - Internal/FBSDKHybridAppEventsScriptMessageHandler*
-          - Internal/FBSDKAppEventsNumberParser*
-      - path: FBSDKCoreKit/GraphAPI
-        createIntermediateGroups: true
-        excludes:
-          - FBSDKGraphErrorRecoveryProcessor*
-      - path: FBSDKCoreKit/Internal
-        createIntermediateGroups: true
-        headerVisibility: project
-        excludes:
-          - FBSDKAuthenticationStatusUtility*
-          - FBSDKBackgroundEventLogger*
-          - FBSDKContainerViewController*
-          - FBSDKInternalUtility+WindowFinding*
-          - FBSDKRulesFromKeyProvider.h
-          - FBSDKProfile+Internal*
-          - FBSDKProfile+ProfileProtocols*
-          - FBSDKProfilePictureView+Internal*
-          - FBSDKProfileProtocols*
-          - FBSDKMeasurementEvent*
-          - FBSDKMacCatalystDetermining*
-          - FBSDKURL_Internal.h
-          - FBSDKAppLink*
-          - UIApplication+URLOpener.h
-          - BridgeAPI
-          - UI/FBSDKCloseIcon*
-          - UI/FBSDKHumanSilhouette*
-          - WebDialog
       - path: FBSDKCoreKit
         headerVisibility: project
         excludes:
-          - AppEvents
-          - AppLink
-          - BridgeAPI
-          - GraphAPI
-          - Internal
           - include
-          - FBSDKBridgeAPI*
           - FBSDKCoreKit.modulemap
-          - FBSDKMeasurementEvent*
-          - FBSDKMutableCopying*
-          - FBSDKProfile*
-          - FBSDKShareDialogConfiguration*
-          - FBSDKURL.*
-          - FBSDKURLHosting*
-          - FBSDKURLOpen*
-          - FBSDKWebDialog*
-          - FBSDKWindowFinding*
           - Info.plist
+          - FBProfilePictureView.swift
+          - Internal/ProfilePictureViewState.swift
       - path: FBSDKCoreKit/include
         headerVisibility: public
-        excludes:
-          - FBSDKAppLink*
-          - FBSDKBridgeAPI*
-          - FBSDKGraphErrorRecoveryProcessor*
-          - FBSDKBridgeAPI*
-          - FBSDKMeasurementEvent*
-          - FBSDKMutableCopying*
-          - FBSDKProfile*
-          - FBSDKShareDialogConfiguration*
-          - FBSDKURL.*
-          - FBSDKURLHosting*
-          - FBSDKURLOpen*
-          - FBSDKWebDialog*
-          - FBSDKWebViewAppLinkResolver*
-          - FBSDKWindowFinding*
-          - Info.plist
-          - FBSDKInternalUtility+URLHosting*
       - path: FBSDKCoreKit/Info.plist
         group: FBSDKCoreKit/Supporting Files
         createIntermediateGroups: true

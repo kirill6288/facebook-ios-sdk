@@ -21,7 +21,7 @@ projectReferences:
 
 options:
   deploymentTarget:
-    tvOS: '11.0'
+    tvOS: '12.0'
 
 configFiles:
   Debug: Configurations/Shared/Configuration/Debug.xcconfig
@@ -32,7 +32,6 @@ settings:
     # Some iOS defaults will be overridden by Xcodegen.
     # We need to explicitly set them to maintain parity with
     # the project file being replaced
-    SWIFT_OPTIMIZATION_LEVEL: -O
     ENABLE_NS_ASSERTIONS: YES
 
 schemes:

@@ -8,12 +8,16 @@
 
 #if !TARGET_OS_TV
 
-#import <FBSDKCoreKit/FBSDKProfilePictureView.h>
+#import <FBSDKCoreKit/FBSDKProfilePictureMode.h>
 #import <FBSDKCoreKit/FBSDKProfileProtocols.h>
 
 @class FBSDKLocation;
 @class FBSDKProfile;
 @class FBSDKUserAgeRange;
+@protocol FBSDKDataPersisting;
+@protocol FBSDKNotificationDelivering;
+@protocol FBSDKURLHosting;
+@protocol _FBSDKNotificationPosting;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -50,8 +54,7 @@ typedef void (^ FBSDKProfileBlock)(FBSDKProfile *_Nullable profile, NSError *_Nu
 NS_SWIFT_NAME(ProfileBlock);
 
 /// Represents the unique identifier for an end user
-typedef NSString FBSDKUserIdentifier
-  NS_SWIFT_NAME(UserIdentifier);
+typedef NSString *FBSDKUserIdentifier NS_SWIFT_NAME(UserIdentifier) NS_SWIFT_BRIDGED_TYPEDEF;
 
 /**
  Represents an immutable Facebook profile
@@ -81,7 +84,7 @@ NS_SWIFT_NAME(Profile)
  @param linkURL the link for this profile
  @param refreshDate the optional date this profile was fetched. Defaults to [NSDate date].
  */
-- (instancetype)initWithUserID:(FBSDKUserIdentifier *)userID
+- (instancetype)initWithUserID:(FBSDKUserIdentifier)userID
                      firstName:(nullable NSString *)firstName
                     middleName:(nullable NSString *)middleName
                       lastName:(nullable NSString *)lastName
@@ -109,7 +112,7 @@ NS_SWIFT_NAME(Profile)
  When true, `loadCurrentProfileWithCompletion:` will assume the profile is
  incomplete and disregard any cached profile. Defaults to false.
  */
-- (instancetype)initWithUserID:(FBSDKUserIdentifier *)userID
+- (instancetype)initWithUserID:(FBSDKUserIdentifier)userID
                      firstName:(nullable NSString *)firstName
                     middleName:(nullable NSString *)middleName
                       lastName:(nullable NSString *)lastName
@@ -118,7 +121,7 @@ NS_SWIFT_NAME(Profile)
                    refreshDate:(nullable NSDate *)refreshDate
                       imageURL:(nullable NSURL *)imageURL
                          email:(nullable NSString *)email
-                     friendIDs:(nullable NSArray<FBSDKUserIdentifier *> *)friendIDs
+                     friendIDs:(nullable NSArray<FBSDKUserIdentifier> *)friendIDs
                       birthday:(nullable NSDate *)birthday
                       ageRange:(nullable FBSDKUserAgeRange *)ageRange
                       hometown:(nullable FBSDKLocation *)hometown
@@ -144,7 +147,7 @@ NS_SWIFT_NAME(Profile)
  @param location the user's location
  @param gender the user's gender
  */
-- (instancetype)initWithUserID:(FBSDKUserIdentifier *)userID
+- (instancetype)initWithUserID:(FBSDKUserIdentifier)userID
                      firstName:(nullable NSString *)firstName
                     middleName:(nullable NSString *)middleName
                       lastName:(nullable NSString *)lastName
@@ -153,7 +156,7 @@ NS_SWIFT_NAME(Profile)
                    refreshDate:(nullable NSDate *)refreshDate
                       imageURL:(nullable NSURL *)imageURL
                          email:(nullable NSString *)email
-                     friendIDs:(nullable NSArray<FBSDKUserIdentifier *> *)friendIDs
+                     friendIDs:(nullable NSArray<FBSDKUserIdentifier> *)friendIDs
                       birthday:(nullable NSDate *)birthday
                       ageRange:(nullable FBSDKUserAgeRange *)ageRange
                       hometown:(nullable FBSDKLocation *)hometown
@@ -173,7 +176,7 @@ NS_SWIFT_NAME(Profile)
 NS_SWIFT_NAME(current);
 
 /// The user id
-@property (nonatomic, readonly, copy) FBSDKUserIdentifier *userID;
+@property (nonatomic, readonly, copy) FBSDKUserIdentifier userID;
 /// The user's first name
 @property (nullable, nonatomic, readonly, copy) NSString *firstName;
 /// The user's middle name
@@ -207,7 +210,7 @@ NS_SWIFT_NAME(current);
 
  IMPORTANT: This field will only be populated if your user has granted your application the 'user_friends' permission.
  */
-@property (nullable, nonatomic, readonly, copy) NSArray<FBSDKUserIdentifier *> *friendIDs;
+@property (nullable, nonatomic, readonly, copy) NSArray<FBSDKUserIdentifier> *friendIDs;
 
 /**
  The user's birthday.
@@ -283,6 +286,35 @@ NS_SWIFT_NAME(imageURL(forMode:size:));
  @param profile the profile to compare to.
  */
 - (BOOL)isEqualToProfile:(FBSDKProfile *)profile;
+
+/**
+ Internal method exposed to facilitate transition to Swift.
+ API Subject to change or removal without warning. Do not use.
+
+ @warning INTERNAL - DO NOT USE
+ */
+// UNCRUSTIFY_FORMAT_OFF
++ (NSURL *)imageURLForProfileID:(NSString *)profileId
+                    pictureMode:(FBSDKProfilePictureMode)mode
+                           size:(CGSize)size
+NS_SWIFT_NAME(imageURL(profileID:pictureMode:size:));
+// UNCRUSTIFY_FORMAT_ON
+
+/**
+ Internal method exposed to facilitate transition to Swift.
+ API Subject to change or removal without warning. Do not use.
+
+ @warning INTERNAL - DO NOT USE
+ */
+// UNCRUSTIFY_FORMAT_OFF
++ (void)configureWithDataStore:(id<FBSDKDataPersisting>)dataStore
+           accessTokenProvider:(Class<FBSDKAccessTokenProviding>)accessTokenProvider
+            notificationCenter:(id<_FBSDKNotificationPosting, FBSDKNotificationDelivering>)notificationCenter
+                      settings:(id<FBSDKSettings>)settings
+                     urlHoster:(id<FBSDKURLHosting>)urlHoster
+NS_SWIFT_NAME(configure(dataStore:accessTokenProvider:notificationCenter:settings:urlHoster:));
+// UNCRUSTIFY_FORMAT_ON
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -8,17 +8,13 @@
 
 #if !TARGET_OS_TV
 
-#import "FBSDKCodelessIndexer.h"
-
-#import <UIKit/UIKit.h>
-
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKCoreKit_Basics/FBSDKCoreKit_Basics.h>
 #import <objc/runtime.h>
 #import <sys/sysctl.h>
 #import <sys/utsname.h>
+#import <UIKit/UIKit.h>
 
-#import "FBSDKAdvertiserIDProviding.h"
-#import "FBSDKAppEventsUtility.h"
 #import "FBSDKGraphRequestConnecting.h"
 #import "FBSDKGraphRequestConnectionFactoryProtocol.h"
 #import "FBSDKGraphRequestFactoryProtocol.h"
@@ -27,11 +23,8 @@
 #import "FBSDKInternalUtility+Internal.h"
 #import "FBSDKObjectDecoding.h"
 #import "FBSDKServerConfiguration.h"
-#import "FBSDKServerConfigurationManager.h"
-#import "FBSDKServerConfigurationProviding.h"
 #import "FBSDKSettings+Internal.h"
 #import "FBSDKSettingsProtocol.h"
-#import "FBSDKSwizzling.h"
 #import "FBSDKUnarchiverProvider.h"
 #import "FBSDKUtility.h"
 #import "FBSDKViewHierarchy.h"
@@ -197,7 +190,7 @@ static id<FBSDKSettings> _settings;
 
     // load the defaults
     NSString *defaultKey = [NSString stringWithFormat:CODELESS_SETTING_KEY, appID];
-    NSData *data = [self.dataStore objectForKey:defaultKey];
+    NSData *data = [self.dataStore fb_objectForKey:defaultKey];
     if ([data isKindOfClass:NSData.class]) {
       NSMutableDictionary<NSString *, id> *codelessSetting = nil;
       id<FBSDKObjectDecoding> unarchiver = [FBSDKUnarchiverProvider createInsecureUnarchiverFor:data];
@@ -235,7 +228,7 @@ static id<FBSDKSettings> _settings;
           [FBSDKTypeUtility dictionary:_codelessSetting setObject:@(isCodelessSetupEnabled) forKey:CODELESS_SETUP_ENABLED_KEY];
           [FBSDKTypeUtility dictionary:_codelessSetting setObject:[NSDate date] forKey:CODELESS_SETTING_TIMESTAMP_KEY];
           // update the cached copy in user defaults
-          [self.dataStore setObject:[NSKeyedArchiver archivedDataWithRootObject:_codelessSetting] forKey:defaultKey];
+          [self.dataStore fb_setObject:[NSKeyedArchiver archivedDataWithRootObject:_codelessSetting] forKey:defaultKey];
           completionBlock(isCodelessSetupEnabled, codelessLoadingError);
         }
       }];
